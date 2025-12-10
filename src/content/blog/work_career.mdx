@@ -5,27 +5,5 @@ pubDate: 'Nov 13 2025'
 heroImage: '../../assets/blog-placeholder-5.jpg'
 ---
 
-import ArticleList from '../components/ArticleList.astro';
-
-{/* MDX 中通过 JSX 表达式定义数据 */}
-{
-  ((articles) => (
-    <div>
-      <h1>{frontmatter.title}</h1>
-      <ArticleList articles={articles} />
-    </div>
-  ))([
-    {
-      title: "文章标题1",
-      url: "/articles/1",
-      image: "https://via.placeholder.com/300x200",
-      excerpt: "这里是文章的简要描述或摘要内容。"
-    },
-    {
-      title: "文章标题2",
-      url: "/articles/2",
-      image: "https://via.placeholder.com/300x200",
-      excerpt: "这里是文章的简要描述或摘要内容。"
-    }
-  ])
-}
+<h1>{frontmatter.title}</h1>
+<p>内容正在建设中...</p>
