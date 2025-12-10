@@ -1,0 +1,77 @@
+<!-- src/components/ClickParticles.astro -->
+<div id="click-effects"></div>
+
+<!-- 关键：使用内联 style 标签 + !important 强制覆盖 -->
+<style>
+  /* 强制全局样式（避免被 Astro 的 scoped 样式干扰） */
+  #click-effects {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    pointer-events: none !important;
+    z-index: 99999 !important;
+  }
+  .particle {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    border-radius: 50% !important;
+    pointer-events: none !important;
+    animation: explode 1s ease-out forwards !important;
+  }
+  @keyframes explode {
+    0% { transform: translate(0, 0) scale(0); opacity: 1; }
+    100% { transform: translate(var(--tx), var(--ty)) scale(1); opacity: 0; }
+  }
+</style>
+
+<script is:inline>
+document.addEventListener('click', (e) => {
+  const container = document.getElementById('click-effects');
+  const colors = ['#27acff9d', '#ff274762', '#ffffffd8'];
+  const style = document.createElement('style');
+  style.textContent = `.particle-dynamic {
+    position: absolute !important;
+    left: ${e.clientX}px !important;
+    top: ${e.clientY}px !important;
+    border-radius: 50% !important;
+    box-shadow: 0 0 3px rgba(0,0,0,0.2); 
+    pointer-events: none !important;
+    animation: explode 1s ease-out forwards !important;
+  }`;
+  document.head.appendChild(style);
+
+  const particleCount = 10;
+  const minDistance = 30; // 最小飞行距离
+  const maxDistance = 80; // 最大飞行距离
+  
+  for (let i = 0; i < particleCount; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'particle-dynamic';
+    
+    // 粒子大小
+    const size = Math.random() * 20 + 15;
+    particle.style.width = `${size}px`;
+    particle.style.height = `${size}px`;
+    particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    
+    // 均匀环形分布（360度平均分配角度）
+    const angle = (i / particleCount) * Math.PI * 2;
+    // 随机距离（避免重叠）
+    const distance = minDistance + Math.random() * (maxDistance - minDistance);
+    
+    particle.style.setProperty('--tx', `${Math.cos(angle) * distance}px`);
+    particle.style.setProperty('--ty', `${Math.sin(angle) * distance}px`);
+    
+    container.appendChild(particle);
+    setTimeout(() => {
+      particle.remove();
+      if (i === particleCount - 1) style.remove();
+    }, 1000);
+  }
+});
+</script>

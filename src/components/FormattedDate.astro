@@ -1,0 +1,21 @@
+---
+interface Props {
+	date: Date;
+}
+// // 在 Astro 组件中（如 src/components/Cursor.astro）
+// if (typeof window !== 'undefined') {
+//   document.body.style.cursor = 'url("/assets/cursors/snowflake.ico"), auto';
+// }
+
+const { date } = Astro.props;
+---
+
+<time datetime={date.toISOString()}>
+	{
+		date.toLocaleDateString('en-us', {
+			year: 'numeric',
+			month: 'short',
+			day: 'numeric',
+		})
+	}
+</time>

@@ -1,0 +1,187 @@
+---
+// src/pages/about.astro
+import { getCollection } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import Layout from '../layouts/BlogPost.astro';
+import AboutHeroImage from '../assets/blog-placeholder-about.jpg';
+import BaseHead from '../components/BaseHead.astro';
+import Snowfall from '../components/Snowfall.astro';
+import ClickParticles from '../components/ClickParticles.astro';
+
+// 获取并处理文章数据
+const posts = await getCollection('blog', ({ data }) => {
+  return import.meta.env.PROD ? data.draft !== true : true;
+}) as CollectionEntry<'blog'>[];
+
+posts.sort((a, b) => 
+  new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
+);
+
+function groupPostsByYear(posts: CollectionEntry<'blog'>[]) {
+  const grouped: Record<string, CollectionEntry<'blog'>[]> = {};
+  posts.forEach((post) => {
+    const year = new Date(post.data.pubDate).getFullYear().toString();
+    grouped[year] = grouped[year] || [];
+    grouped[year].push(post);
+  });
+  return grouped;
+}
+
+const postsByYear = groupPostsByYear(posts);
+---
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <BaseHead 
+    title="文章归档 | 关于我" 
+    description="博客文章归档与个人简介" 
+  />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root {
+      --color-text: #333;
+      --color-primary: #4f46e5;
+      --timeline-border: 2px solid var(--color-primary);
+    }
+
+    /* 布局容器 */
+    .content-container {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+
+    /* 个人介绍部分 */
+    .about-section {
+      margin-bottom: 3rem;
+      line-height: 1.8;
+    }
+
+    /* 归档部分 */
+    .archive-section {
+      margin-top: 2rem;
+      padding-top: 1rem;
+	  padding-bottom:1rem;
+	  margin-bottom: 2rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.781);
+    }
+
+    .timeline {
+      border-left: var(--timeline-border);
+      padding-left: 1.5rem;
+      margin-left: 0.8rem;
+    }
+
+    .year-section {
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    .year-section h2 {
+      position: relative;
+      margin-left: -2rem;
+      color: var(--color-primary);
+    }
+
+    .year-section h2::before {
+      content: "";
+      position: absolute;
+      left: -1.7rem;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--color-primary);
+    }
+
+    .post-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .post-item {
+      margin: 1rem 0;
+      transition: transform 0.2s;
+    }
+
+    .post-item:hover {
+      transform: translateX(5px);
+    }
+
+    .post-link {
+      display: flex;
+      gap: 1.5rem;
+      text-decoration: none;
+      color: var(--color-text);
+      align-items: center;
+    }
+
+    .post-date {
+      min-width: 100px;
+      color: #666;
+      font-size: 0.9em;
+    }
+
+    @media (max-width: 768px) {
+      .post-link {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.3rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+	  <Layout
+		title="文章归档"
+		description='文章归档'
+		pubDate={new Date('November 16 2025')}
+		heroImage={AboutHeroImage}
+		draft={false}  
+    >
+      <section class="archive-section">
+        <div class="timeline">
+          {Object.entries(postsByYear)
+            .sort((a, b) => b[0].localeCompare(a[0]))
+            .map(([year, yearPosts]) => (
+              <div class="year-section">
+                <h4>{year}</h4>
+                <ul class="post-list">
+                  {yearPosts.map((post) => (
+                    <li class="post-item">
+                      <a href={`/blog/${post.id}`} class="post-link">
+                        <span class="post-date">
+                          {new Date(post.data.pubDate).toLocaleDateString('zh-CN', {
+                            year: 'numeric',
+                            month: '2-digit',
+                            day: '2-digit'
+                          })}
+                        </span>
+                        <span class="post-title">{post.data.title}</span>
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+        </div>
+    </section>
+
+	<div class="content-container">
+		<!-- 个人介绍部分 -->
+		<h1>关于我</h1>
+		<br>
+		<section class="about-section">
+			<p>一只乱跳的三脚猫</p>
+			<p>一个喜欢跑步的人</p>
+		</section>
+    </div>
+  </Layout>
+  <Snowfall />
+  <ClickParticles />
+</body>
+</html>

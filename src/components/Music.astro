@@ -1,0 +1,63 @@
+---
+// src/components/Music.astro
+const songs = [
+  { title: "歌曲1", src: "/music/TheFlowerWeSawThatDay.mp3" },
+  { title: "歌曲2", src: "/music/TomorrowWillBeBetter.mp3" }
+];
+---
+
+<div class="music-player" data-songs={JSON.stringify(songs)}>
+  <audio id="audio" controls class="audio-element"></audio>
+  <div class="playlist">
+    {songs.map((song, index) => (
+      <div 
+        class="song" 
+        data-src={song.src}
+        data-index={index}
+      >
+        {song.title}
+      </div>
+    ))}
+  </div>
+</div>
+
+<!-- 播放器样式 -->
+<style>
+  .music-player {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 300px;
+    background: rgba(0,0,0,0.7);
+    padding: 15px;
+    border-radius: 10px;
+    color: white;
+    z-index: 1000;
+  }
+  .audio-element {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .playlist {
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  .song {
+    padding: 8px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  .song:hover {
+    background: rgba(255,255,255,0.2);
+  }
+</style>
+
+<script is:inline>
+  const audio = document.getElementById('audio');
+  const songs = JSON.parse('{JSON.stringify(songs)}'); // 传递数据到客户端
+  
+  function playSong(index) {
+    audio.src = songs[index].src;
+    audio.play();
+  }
+</script>
