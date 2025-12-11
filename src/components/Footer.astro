@@ -1,7 +1,7 @@
 ---
 const today = new Date();
 // 设置网站上线时间（请修改为您的实际上线日期时间）
-const LAUNCH_DATE = new Date('2025-12-10T00:00:00'); // 格式：YYYY-MM-DDTHH:MM:SS
+const LAUNCH_DATE = new Date('2025-12-11T10:00:00'); // 格式：YYYY-MM-DDTHH:MM:SS
 ---
 
 <footer>
@@ -57,7 +57,7 @@ const LAUNCH_DATE = new Date('2025-12-10T00:00:00'); // 格式：YYYY-MM-DDTHH:M
 <script is:inline>
 document.addEventListener('DOMContentLoaded', () => {
   const counterElement = document.getElementById('uptime-counter');
-  const launchDate = new Date('2024-06-01T00:00:00'); // 必须与上方 LAUNCH_DATE 一致
+  const launchDate = new Date('2025-12-11T10:00:00'); // 必须与上方 LAUNCH_DATE 一致
 
   function formatTimeUnit(value, unit) {
     return value > 0 ? `${value}${unit}` : '';
