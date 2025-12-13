@@ -1,5 +1,5 @@
 ---
-title: 'Social/Community'
+title: '社会/社区'
 description: 'Lorem ipsum dolor sit amet'
 pubDate: 'Nov 13 2025'
 heroImage: '../../assets/blog-placeholder-3.jpg'

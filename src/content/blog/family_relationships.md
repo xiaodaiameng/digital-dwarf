@@ -1,5 +1,5 @@
 ---
-title: 'Family/Relationships'
+title: '家庭/关系'
 description: 'Lorem ipsum dolor sit amet'
 pubDate: 'Nov 13 2025'
 heroImage: '../../assets/blog-placeholder-2.jpg'
