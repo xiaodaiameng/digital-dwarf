@@ -1,5 +1,5 @@
 ---
-title: 'Personal Health'
+title: '身心/健康'
 description: 'Lorem ipsum dolor sit amet'
 pubDate: 'Nov 13 2025'
 heroImage: '../../assets/blog-placeholder-4.jpg'
