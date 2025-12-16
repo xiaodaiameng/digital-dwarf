@@ -40,7 +40,9 @@ import Music from '../components/Music.astro';
             color: #333;
             font-family: 'Segoe UI', Roboto, sans-serif;
             margin: 0;
-            white-space: nowrap;
+            /*white-space: nowrap;*/
+            white-space: pre-wrap; /* 改为 pre-wrap 以保留换行符 */
+            word-wrap: break-word; /* 确保长单词能换行 */
         }
 
         /* 光标样式 */
@@ -134,7 +136,11 @@ import Music from '../components/Music.astro';
         //const text = "Just a little more";
         //const text = "葡萄成熟时，羊群回家";
         // const text = "晚安";
-        const text = "一念四海平，一念百花开";
+        // const text = "一念四海平，一念百花开";
+        const text = "我们相信人类天生就是聪明和仁慈的，值得信任的；坚信人类可以"+'\n'+
+                    "自由地分享想法，自由地私下交流，自由地创造工具。"+'\n'+
+                    "by the way, is telegram blocked in China ?"
+                        ;
         const typewriterEl = document.getElementById('typewriter');
         const caretEl = document.getElementById('caret');
         const typingSpeed = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--typing-speed'));
@@ -156,9 +162,9 @@ import Music from '../components/Music.astro';
             }, typingSpeed);
         }
 
-        // 页面加载后开始打字
-        window.addEventListener('load', typeText);
-    </script>
+    window.addEventListener('load', typeText);
+</script>
+
 	<Snowfall/>
     <ClickParticles />
     <!-- <Music /> -->
