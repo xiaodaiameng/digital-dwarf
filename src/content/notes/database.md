@@ -9,33 +9,33 @@ category: '期末'
 
 前言：
 
-打包数据命令：
+###### 打包数据命令：
 
 `mysqldump -u root -p --databases dbName >D:\dbname2.sql`
 
-还原数据命令：
+###### 还原数据命令：
 
 `mysql -u root -p <D:\dbname2.sql`
 
 正文：
 
-聚合函数：
+###### 聚合函数
 
-```sql
-，，
-```
+AVG(column)	COUNT(column)	MAX(column)	MIN(column)	SUM(column)
 
-SQL 子句的标准顺序：
+###### 标准顺序：
 
 ```sql
 SELECT ...FROM ...WHERE ...
 GROUP BY ...
 HAVING ...        -- 组级过滤（分组后过滤）
-ORDER BY ...      -- 排序
+ORDER BY ...(DESC)
 LIMIT ...
 ```
 
-2.1 单表、汇总、分组
+
+
+###### 单表、汇总、分组、连接
 
 ```sql
 SELECT sNo,sName,sSex,sBirth FROM student WHERE mNo='24173';
@@ -54,7 +54,11 @@ SELECT sNo,ROUND(sweight, 1) FROM stuinfo WHERE ssex = '女' AND ROUND(sweight, 
 
 SELECT AVG(score), MAX(score), MIN(score) FROM sc WHERE sNo = '714';
 
-SELECT MAX(sheight) FROM studetail T1, stuclass T2 WHERE T1.sno = T2.sno AND T2.mno = '24173';
+SELECT MAX(sheight) FROM studetail (AS) T1, stuclass (AS) T2 WHERE T1.sno = T2.sno AND T2.mno = '24173';
+
+SELECT  count(*) FROM  course WHERE cpno IS NOT NULL;
+
+SELECT  sNo,sName,sSex FROM  student WHERE  student.sNo IN(SELECT sNo FROM sc WHERE tcno IN ('2414040107','2414040303'));
 
 ```
 
@@ -65,13 +69,15 @@ SELECT DISTINCT sNo FROM sc WHERE score<60 GROUP BY sNo;
 SELECT DISTINCT LEFT(sName, 1) FROM student; 
 ```
 
-distinct 去除重复值。
+###### distinct 去除重复值。
 
-left(字符串, 取前几个字符) 
+###### <mark>left(字符串, 取前几个字符) </mark>
 
 substring(字符串, 起始位置1, 长度)
 
 
+
+###### GROUP BY
 
 ```sql
 SELECT sName, subject, SUM(score) FROM sc GROUP BY sName, subject;
@@ -83,14 +89,18 @@ SELECT sName, GROUP_CONCAT(subject), SUM(score) FROM sc GROUP BY sName;
 
 
 
+###### DESC
+
 ```sql
 SELECT  sSex,COUNT(*) FROM  student GROUP BY ssex ORDER BY COUNT(*) DESC;
 ```
 
-DES Descending 降序，从低到高
+DESC Descending 降序，从低到高
 ASC Ascending，升序，从高到低，默认值
 
 
+
+###### COUNT
 
 ```sql
 SELECT COUNT(cpNo) FROM course;
@@ -111,6 +121,8 @@ SELECT courseNo, COUNT(*),AVG(score) FROM sc WHERE sNo LIKE '24173%' GROUP BY co
 
 
 
+###### LIMIT
+
 ```sql
 ...ORDER BY score DESC LIMIT 0,3;
 ```
@@ -119,40 +131,143 @@ LIMIT 0,3 表示从第0条开始取前3条，等价于 LIMIT 3
 
 
 
+###### JOIN
+
 ```sql
-SELECT student.sname FROM student 
-JOIN sc ON student.sno = sc.sno
+SELECT student.sname FROM
+
+student JOIN sc ON student.sno = sc.sno 
+
 GROUP BY student.sno
+
 HAVING AVG(sc.score) > 80 AND COUNT(*) >= 2;
+
+等价写法：
+SELECT student.sname FROM student 
+
+WHERE student.sno IN
+
+(	SELECT sc.sno FROM sc 
+ 
+ 	GROUP BY sc.sno 
+ 	
+ 	HAVING AVG(score) > 80 AND COUNT(*) >= 2
+);
 ```
 
-这里是按学号进行了分组，所以这里的COUNT(*) >= 2是分组后该学生的选课门数的统计。
+按学号进行了分组，上面的COUNT(*) >= 2是指分组后该学生的选课门数的统计。
 
-这句 `SELECT student.sname FROM student INNER JOIN sc ON student.sno = sc.sno `的其他写法：
 
-1. 逗号分隔两个表（老式写法）
+
+###### 等价写法、WHERE EXISTS ... 、WHERE column IN ...
 
 ```sql
-SELECT student.sname FROM student,sc WHERE student.sno = sc.sno;
+SELECT (student.)sname FROM student INNER JOIN sc ON student.sno = sc.sno;
+等价写法：
+SELECT sname FROM student T1, sc T2 WHERE T1.sno = T2.sno;（老式写法）
+SELECT sname FROM student NATURAL JOIN sc;
+
+exist写法！！
+SELECT sname FROM student WHERE EXISTS (SELECT * FROM sc WHERE sc.sno = student.sno);
+in写法：
+SELECT sname FROM student WHERE sno IN (SELECT sno FROM sc);
 ```
 
-2. `NATURAL JOIN`（自然连接）
+
+
+```
+SELECT sNo,sName,sSex,mName FROM student s LEFT JOIN Major m ON s.mNo = m.mNo;
+```
+
+
+
+###### 多JOIN
 
 ```sql
-SELECT student.sname FROM student NATURAL JOIN sc;
+SELECT DISTINCT s.sNo, sName, mName FROM
+student s 
+INNER JOIN major m ON s.mNo = m.mNo 
+INNER JOIN sc ON s.sNo = sc.sNo
+WHERE score < 60;
 ```
 
-3. WHERE EXISTS（ 子查询 ）
+
+
+###### 带where条件的多表连接
 
 ```sql
-SELECT sname FROM student WHERE EXISTS (SELECT 1 FROM sc WHERE sc.sno = student.sno);
+SELECT  sc1.sNo, sc1.score, sc2.score FROM
+
+sc1
+JOIN sc2 ON sc1.sNo = sc2.sNo
+
+WHERE  sc1.tcno='2411010101'
+
+AND  sc2.tcno='2411010202'
+
+AND sc1.score > sc2.score;
 ```
 
-4. WHERE IN（子查询）
+
+
+###### 布尔表达式
 
 ```sql
-SELECT sname FROM student WHERE sno IN (SELECT DISTINCT sno FROM sc);
+SELECT...FROM student LEFT JOIN sc ON student.sno = sc.sno ORDER BY sc.tcno IS NULL DESC;
 ```
+
+order by 一个布尔表达式，DESC 可以用于此处使降序：使表达式为1的数据在前，使表达式为0的数据在后。
+
+###### 多层排序：
+
+```sql
+SELECT ...FROM student LEFT JOIN sc ON student.sno = sc.sno ORDER BY sc.tcno IS NULL DESC, student.sno, sc.score DESC;
+```
+
+第一排序为选课信息：没选课在前，选课在后，第二排序为学号，同一学号的，按各科成绩降序排序。
+
+
+
+###### any的意思：低满足
+
+```
+WHERE sc.score > ANY (子查询)
+等价于
+WHERE sc.score > (SELECT MIN(score) FROM ...)
+```
+
+
+
+###### 其他长句：
+
+```sql
+SELECT s.sNo,s.sName FROM student s
+WHERE sNo IN (SELECT sc.sNo FROM sc join tc on sc.tcno=tc.tcno 
+                  					 join course on tc.cno=course.cno
+    		  WHERE c.cname  IN('计算机网络','金融学')
+GROUP BY sNo HAVING COUNT(DISTINCT c.cname) = 2);
+
+
+SELECT s.sname,s.snative,d.dname FROM student s JOIN dept d ON s.dno = d.dno
+WHERE EXISTS (
+  SELECT * FROM student s2 JOIN dept d2 ON s2.dno = d2.dno
+  WHERE d2.dname = '计算机系' AND s2.snative = s.snative)
+AND d.dname != '计算机系';
+
+SELECT sname,sweight-avgweight FROM student s JOIN stuinfo sf1 ON s.sno=sf1.sno
+JOIN (SELECT mno,avg(sweight) FROM student s2 JOIN stuinfo sf2 on s2.sno=sf2.sno GROUP BY mno)
+ON s.mno= v1.mno;
+
+```
+
+```sql
+SELECT...FROM...WHERE EXISTS (SELECT...FROM...WHERE...)
+				AND EXISTS (SELECT * FROM  sc WHERE NOT EXISTS...AND...);
+```
+
+
+
+
 
 
 
