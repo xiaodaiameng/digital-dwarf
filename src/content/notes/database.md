@@ -1,3 +1,12 @@
+---
+title: '数据库'
+description: '数据库期末'
+date: '2025-12-17'
+draft: false
+category: '期末'
+---
+
+
 前言：
 
 打包数据命令：
