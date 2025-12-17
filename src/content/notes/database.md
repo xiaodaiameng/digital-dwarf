@@ -9,21 +9,24 @@ category: '期末'
 
 前言：
 
-###### 打包数据命令：
+### 打包数据命令：
 
 `mysqldump -u root -p --databases dbName >D:\dbname2.sql`
 
-###### 还原数据命令：
+### 还原数据命令：
 
-`mysql -u root -p <D:\dbname2.sql`
+在命令行：
+`mysql -u root -p < D:\dbname2.sql`
+在mysql里：
+`SOURCE D:/dbname.sql`
 
 正文：
 
-###### 聚合函数
+### 聚合函数
 
 AVG(column)	COUNT(column)	MAX(column)	MIN(column)	SUM(column)
 
-###### 标准顺序：
+### 标准顺序：
 
 ```sql
 SELECT ...FROM ...WHERE ...
@@ -35,7 +38,7 @@ LIMIT ...
 
 
 
-###### 单表、汇总、分组、连接
+### 单表、汇总、分组、连接
 
 ```sql
 SELECT sNo,sName,sSex,sBirth FROM student WHERE mNo='24173';
@@ -69,15 +72,15 @@ SELECT DISTINCT sNo FROM sc WHERE score<60 GROUP BY sNo;
 SELECT DISTINCT LEFT(sName, 1) FROM student; 
 ```
 
-###### distinct 去除重复值。
+### distinct 去除重复值。
 
-###### <mark>left(字符串, 取前几个字符) </mark>
+### <mark>left(字符串, 取前几个字符) </mark>
 
 substring(字符串, 起始位置1, 长度)
 
 
 
-###### GROUP BY
+### GROUP BY
 
 ```sql
 SELECT sName, subject, SUM(score) FROM sc GROUP BY sName, subject;
@@ -89,7 +92,7 @@ SELECT sName, GROUP_CONCAT(subject), SUM(score) FROM sc GROUP BY sName;
 
 
 
-###### DESC
+### DESC
 
 ```sql
 SELECT  sSex,COUNT(*) FROM  student GROUP BY ssex ORDER BY COUNT(*) DESC;
@@ -100,7 +103,7 @@ ASC Ascending，升序，从高到低，默认值
 
 
 
-###### COUNT
+### COUNT
 
 ```sql
 SELECT COUNT(cpNo) FROM course;
@@ -121,7 +124,7 @@ SELECT courseNo, COUNT(*),AVG(score) FROM sc WHERE sNo LIKE '24173%' GROUP BY co
 
 
 
-###### LIMIT
+### LIMIT
 
 ```sql
 ...ORDER BY score DESC LIMIT 0,3;
@@ -131,7 +134,7 @@ LIMIT 0,3 表示从第0条开始取前3条，等价于 LIMIT 3
 
 
 
-###### JOIN
+### JOIN
 
 ```sql
 SELECT student.sname FROM
@@ -159,7 +162,7 @@ WHERE student.sno IN
 
 
 
-###### 等价写法、WHERE EXISTS ... 、WHERE column IN ...
+### 等价写法、WHERE EXISTS ... 、WHERE column IN ...
 
 ```sql
 SELECT (student.)sname FROM student INNER JOIN sc ON student.sno = sc.sno;
@@ -181,7 +184,7 @@ SELECT sNo,sName,sSex,mName FROM student s LEFT JOIN Major m ON s.mNo = m.mNo;
 
 
 
-###### 多JOIN
+### 多JOIN
 
 ```sql
 SELECT DISTINCT s.sNo, sName, mName FROM
@@ -193,7 +196,7 @@ WHERE score < 60;
 
 
 
-###### 带where条件的多表连接
+### 带where条件的多表连接
 
 ```sql
 SELECT  sc1.sNo, sc1.score, sc2.score FROM
@@ -210,7 +213,7 @@ AND sc1.score > sc2.score;
 
 
 
-###### 布尔表达式
+### 布尔表达式
 
 ```sql
 SELECT...FROM student LEFT JOIN sc ON student.sno = sc.sno ORDER BY sc.tcno IS NULL DESC;
@@ -218,7 +221,7 @@ SELECT...FROM student LEFT JOIN sc ON student.sno = sc.sno ORDER BY sc.tcno IS N
 
 order by 一个布尔表达式，DESC 可以用于此处使降序：使表达式为1的数据在前，使表达式为0的数据在后。
 
-###### 多层排序：
+### 多层排序：
 
 ```sql
 SELECT ...FROM student LEFT JOIN sc ON student.sno = sc.sno ORDER BY sc.tcno IS NULL DESC, student.sno, sc.score DESC;
@@ -228,7 +231,7 @@ SELECT ...FROM student LEFT JOIN sc ON student.sno = sc.sno ORDER BY sc.tcno IS 
 
 
 
-###### any的意思：低满足
+### any的意思：低满足
 
 ```
 WHERE sc.score > ANY (子查询)
@@ -238,7 +241,7 @@ WHERE sc.score > (SELECT MIN(score) FROM ...)
 
 
 
-###### 其他长句：
+### 其他长句：
 
 ```sql
 SELECT s.sNo,s.sName FROM student s
