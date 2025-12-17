@@ -4,94 +4,64 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>文章列表</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
-        .article-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-        .article-item {
-            display: flex;
-            width: 100%;
-            max-width: 1800px;
-            margin-bottom: 20px;
-            border: 1px solid #ddd;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-        .article-image {
-            flex: 1;
-            min-width: 200px;
-            background-color: #f5f5f5;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .article-image img {
-            max-width: 100%;
-            height: auto;
-        }
-        .article-content {
-            flex: 1;
-            padding: 15px;
-        }
-        .article-title {
-            font-size: 18px;
-            margin-top: 0;
-            margin-bottom: 10px;
-        }
-        .article-title a {
-            text-decoration: none;
-            color: #333;
-        }
-        .article-title a:hover {
-            color: #0066cc;
-        }
-        .article-excerpt {
-            color: #666;
-            font-size: 14px;
-        }
-    </style>
+
 </head>
 <body>
-    <h1>文章列表</h1>
-    
-    <div class="article-container">
-        <!-- 文章1 -->
-        <div class="article-item">
-            <div class="article-image">
-                <img src="https://via.placeholder.com/300x200" alt="文章配图">
+    <div class="page-container">
+        <h1>文章列表</h1>
+        
+        <div class="article-container">
+            <!-- 文章1 -->
+            <div class="article-item">
+                <div class="article-image">
+                    <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="科技文章配图">
+                </div>
+                <div class="article-content">
+                    <h2 class="article-title"><a href="article1.html">人工智能的未来发展趋势分析</a></h2>
+                    <p class="article-excerpt">探讨人工智能技术的最新发展，以及未来五年内AI可能对社会、经济和日常生活带来的变革性影响。</p>
+                    <div class="article-meta">
+                        <span class="article-tag">科技</span>
+                        <span class="article-tag">AI</span>
+                        <span class="article-tag">未来趋势</span>
+                    </div>
+                </div>
             </div>
-            <div class="article-content">
-                <h2 class="article-title"><a href="article1.html">文章标题1</a></h2>
-                <p class="article-excerpt">这里是文章的简要描述或摘要内容，用户可以点击标题查看全文。</p>
+            
+            <!-- 文章2 -->
+            <div class="article-item">
+                <div class="article-image">
+                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w-600&q=80" alt="商业文章配图">
+                </div>
+                <div class="article-content">
+                    <h2 class="article-title"><a href="article2.html">数字化转型中的企业管理变革</a></h2>
+                    <p class="article-excerpt">分析企业在数字化转型过程中面临的管理挑战，以及如何通过创新管理方法和工具实现平稳过渡。</p>
+                    <div class="article-meta">
+                        <span class="article-tag">商业</span>
+                        <span class="article-tag">数字化转型</span>
+                        <span class="article-tag">管理</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 文章3 -->
+            <div class="article-item">
+                <div class="article-image">
+                    <img src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80" alt="设计文章配图">
+                </div>
+                <div class="article-content">
+                    <h2 class="article-title"><a href="article3.html">现代网页设计的最佳实践与趋势</a></h2>
+                    <p class="article-excerpt">介绍当前网页设计的最新技术和趋势，包括响应式设计、用户体验优化和可访问性设计等关键要素。</p>
+                    <div class="article-meta">
+                        <span class="article-tag">设计</span>
+                        <span class="article-tag">网页开发</span>
+                        <span class="article-tag">用户体验</span>
+                    </div>
+                </div>
             </div>
         </div>
         
-        <!-- 文章2 -->
-        <div class="article-item">
-            <div class="article-image">
-                <img src="https://via.placeholder.com/300x200" alt="文章配图">
-            </div>
-            <div class="article-content">
-                <h2 class="article-title"><a href="article2.html">文章标题2</a></h2>
-                <p class="article-excerpt">这里是文章的简要描述或摘要内容，用户可以点击标题查看全文。</p>
-            </div>
-        </div>
-        
-        <!-- 文章3 -->
-        <div class="article-item">
-            <div class="article-image">
-                <img src="https://via.placeholder.com/300x200" alt="文章配图">
-            </div>
-            <div class="article-content">
-                <h2 class="article-title"><a href="article3.html">文章标题3</a></h2>
-                <p class="article-excerpt">这里是文章的简要描述或摘要内容，用户可以点击标题查看全文。</p>
-            </div>
+        <div class="footer">
+            <p>© 2023 文章列表 | 共3篇文章</p>
         </div>
     </div>
 </body>

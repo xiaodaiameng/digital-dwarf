@@ -1,7 +1,7 @@
 ---
 title: '马原笔记'
 description: '马克思主义原理期末笔记'
-date: '2025-12-15'  #使用 date 而不是 pubDate
+date: '2025-12-18'  #使用 date 而不是 pubDate
 draft: false        #添加 draft 字段
 category: '期末'
 ---
