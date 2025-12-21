@@ -15,7 +15,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 <html lang="en">
 	<head>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 		<BaseHead title={title} description={description} />
 		<style>
 			main {
@@ -62,7 +62,84 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
   
   /* 1. 必须的：viewport meta标签（添加到<head>） */
   /* 注意：这个需要添加到<head>标签内，不是在<style>里 */
+ 
+	/* ========== LaTeX公式换行设置 ========== */
+
+/* 1. 公式容器设置 */
+.katex-display {
+  max-width: 100%;
+  overflow-wrap: break-word !important;
+  word-wrap: break-word !important;
+  word-break: break-all !important;
+  hyphens: auto !important;
+}
+
+/* 2. KaTeX内部元素允许换行 */
+.katex {
+  display: inline-block !important;
+  max-width: 100% !important;
+  overflow-x: visible !important;
+  white-space: normal !important;
+}
+
+/* 3. KaTeX的子元素换行设置 */
+.katex-html {
+  display: inline !important;
+  max-width: 100% !important;
+  overflow-wrap: break-word !important;
+}
+
+/* 4. 数学符号容器 */
+.katex .mord,
+.katex .mop,
+.katex .mbin,
+.katex .mrel,
+.katex .mopen,
+.katex .mclose {
+  display: inline !important;
+  white-space: normal !important;
+}
+
+/* 5. 文本部分（特别是中文） */
+.katex .mord.text {
+  font-family: inherit !important;
+  white-space: normal !important;
+}
+
+/* 6. 针对手机屏幕的特殊设置 */
+@media screen and (max-width: 768px) {
+  .katex-display {
+    font-size: 0.95em !important;
+    padding: 0.5rem !important;
+    margin: 0.5rem 0 !important;
+  }
   
+  .katex {
+    font-size: 0.95em !important;
+  }
+  
+  /* 强制换行的更强设置 */
+  .katex .base {
+    display: inline !important;
+    white-space: normal !important;
+  }
+  
+  .katex .mtable {
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    display: block !important;
+  }
+}
+
+/* 7. 特别长的公式添加背景和边框以便识别 */
+.katex-display {
+  background-color: rgba(248, 249, 250, 0.7);
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1rem 0;
+  border-left: 4px solid #4dabf7;
+}
+
   /* 2. 基础响应式设置 */
   html {
     font-size: 16px;

@@ -14,13 +14,13 @@ category: '期末'
 
 题目一：
 
-$STUDENT( \underline{学号}，姓名，性别，\text{班级号}_{\sim\sim})\\$
+$STUDENT( \underline{学号},姓名,性别,\text{班级号}_{\sim\sim})\\$
 
-$CLASS( \underline{班级号}，所在院系，所属专业，班长学号)$
+$CLASS( \underline{班级号},所在院系,所属专业,班长学号)$
 
-$LESSON( \underline{课程号}，课程名，教材名，学分)\\$
+$LESSON( \underline{课程号},课程名,教材名,学分)\\$
 
-$TEACHER( \underline{教师编号}，姓名，所在院系 )\\$
+$TEACHER( \underline{教师编号},姓名,所在院系 )\\$
 
 $SELECTION( \underline{\text{班级号}_{\sim\sim}, \text{课程号}_{\sim\sim}},\text{教师编号}_{\sim\sim}, \text{上课年度}, \text{上课学期})\\$
 
@@ -59,54 +59,35 @@ $\pi_{\text{班级号,上课年度}}(\sigma_{\text{姓名='陈卫'}\wedge \text{
 
  $WW\_Sno \leftarrow \pi_{\text{学号}}(\sigma_{\text{姓名='王武'}}(STUDENT))$
 
-$\pi_{\text{学号，课程号}}(GRADE)\div\pi_{\text{课程号}}(GRADE \bowtie WW\_Sno)$
+$\pi_{\text{学号,课程号}}(GRADE)\div\pi_{\text{课程号}}(GRADE \bowtie WW\_Sno)$
 
 <br>
 
 $\pi_{\text{教师编号}}(\sigma_{\text{所在院系='软件学院'}}(TEACHER)) - \pi_{\text{教师编号}}( SELECTION \bowtie \sigma_{课程名='数据库'}(LESSON))$
 
-<br>
-
-```latex
-$$\pi_{\text{S1.教师编号, S1.课程号}}(
-\sigma_{\text{S1.课程号} \neq \text{S2.课程号} \wedge
-\\
-\text{S1.上课年度}=2020 \wedge \text{S2.上课年度}=2020}(
+<br>$\pi_{\text{S1.教师编号, S1.课程号}}(
+\sigma_{\text{S1.课程号} \neq \text{S2.课程号} \wedge\\
+\text{S1.上课年度}=2020 \wedge \text{S2.上课年度}=2020}(\\
 \rho_{S1}(\text{SELECTION}) 
 \bowtie _{\text{S1.教师编号} = \text{S2.教师编号}} 
 \rho_{S2}(\text{SELECTION})
-))$$
-```
-
-
-$$
-\pi_{\text{S1.教师编号, S1.课程号}}(
-\sigma_{\text{S1.课程号} \neq \text{S2.课程号} \wedge
-\\
-\text{S1.上课年度}=2020 \wedge \text{S2.上课年度}=2020}(
-\rho_{S1}(\text{SELECTION}) 
-\bowtie _{\text{S1.教师编号} = \text{S2.教师编号}} 
-\rho_{S2}(\text{SELECTION})
-))
-$$
-
-
+))$
 
 
 
 题目二：
 
-$S(\underline{SNO}，SNAME，STATUS，CITY )$
-$P(\underline{PNO}, PNAME，COLOR，WEIGHT )$
-$J(\underline{JNO}，JNAME，CITY )$
-$SPJ(\underline{SNO_{\sim\sim}，PNO_{\sim\sim}，JNO_{\sim\sim}}，QTY )$
+$S(\underline{SNO},SNAME,STATUS,CITY )$
+$P(\underline{PNO}, PNAME,COLOR,WEIGHT )$
+$J(\underline{JNO},JNAME,CITY )$
+$SPJ(\underline{SNO_{\sim\sim},PNO_{\sim\sim},JNO_{\sim\sim}},QTY )$
 其中：
 (1)供应商关系S
 (2)零部件关系P
 (3)工程项目关系J
 (4)供应情况关系SPJ
 
-数据库参考实例值如下图所示，请用关系代数表达式表达如下查询操作：
+数据库参考实例值如下图所示,请用关系代数表达式表达如下查询操作：
 （1）查询上海供应商供应的所有零部件的代码。
 （2）查询上海供应商供应的所有零部件的工程项目名称。
 （3）查询给项目代码为J1的工程\;供应代码为 P1 的零部件的供应商代码。
@@ -148,9 +129,9 @@ $ \pi_{JNO,PNO}(SPJ) \div \pi_{PNO}(\sigma_{SNO='S1'}(SPJ)) $
 
 题目三：
 
-$Department(\underline{Dept\_No},Dept\_Name，Location)$
-$Employee(\underline{Emp\_No},Emp\_Name，Dept\_No)$
-$Project(\underline{Pro\_No},Pro\_Name，Budget)$
+$Department(\underline{Dept\_No},Dept\_Name,Location)$
+$Employee(\underline{Emp\_No},Emp\_Name,Dept\_No)$
+$Project(\underline{Pro\_No},Pro\_Name,Budget)$
 $Works(\underline{Emp\_No_{\sim\sim}, Pro\_No_{\sim\sim}}, Job)$
 
 试分别用关系代数表达式表达如下查询操作：
@@ -222,10 +203,10 @@ bName VARCHAR(20) NOT NULL DEFAULT 'abc',
 bTime DATETIME,
 );
 自增必须是数值类型id INT auto_increment PRIMARY KEY
-外键：可以不是父表的主键，也可以不是子表的主键，但是必须唯一（起码unique）
+外键：可以不是父表的主键,也可以不是子表的主键,但是必须唯一（起码unique）
 创建表时就设置好外键约束：设置外键约束名
 CREATE TABLE 子表名(..., bNo INT(10), ...,
-CONSTRAINT 约束名，FOREIGN KEY(bNo) referenceS book(bNo));
+CONSTRAINT 约束名,FOREIGN KEY(bNo) referenceS book(bNo));
 
 修改列 ALTER TABLE <table_name> MODIFY COLUMN <column_name> <attributes可以部分修改> AFTER <column_name>;
 
@@ -346,7 +327,7 @@ SELECT sName, GROUP_CONCAT(subject), SUM(score) FROM sc GROUP BY sName;
 ```
 
 错误：`SELECT sName, subject, SUM(score) FROM sc GROUP BY sName;`
-使用 GROUP BY 时，SELECT 中的每个非聚合列都必须出现在 GROUP BY 子句中。
+使用 GROUP BY 时,SELECT 中的每个非聚合列都必须出现在 GROUP BY 子句中。
 
 
 
@@ -356,8 +337,8 @@ SELECT sName, GROUP_CONCAT(subject), SUM(score) FROM sc GROUP BY sName;
 SELECT  sSex,COUNT(*) FROM  student GROUP BY ssex ORDER BY COUNT(*) DESC;
 ```
 
-DESC Descending 降序，从低到高
-ASC Ascending，升序，从高到低，默认值
+DESC Descending 降序,从低到高
+ASC Ascending,升序,从高到低,默认值
 
 
 
@@ -369,7 +350,7 @@ SELECT COUNT(cpNo) FROM course;
 
 cpNo 通常表示先修课程编号prerequisite course number
 
-COUNT(*)：数行数，包括 NULL 行
+COUNT(*)：数行数,包括 NULL 行
 COUNT(列名)：数该列非 NULL 值的数量
 
 
@@ -388,7 +369,7 @@ SELECT courseNo, COUNT(*),AVG(score) FROM sc WHERE sNo LIKE '24173%' GROUP BY co
 ...ORDER BY score DESC LIMIT 0,3;不能有括号
 ```
 
-LIMIT 0,3 表示从第0条开始取前3条，等价于 LIMIT 3
+LIMIT 0,3 表示从第0条开始取前3条,等价于 LIMIT 3
 
 
 
@@ -469,7 +450,7 @@ AND sc1.score > sc2.score;
 SELECT...FROM student LEFT JOIN sc ON student.sno = sc.sno ORDER BY sc.tcno IS NULL DESC;
 ```
 
-order by 一个布尔表达式，DESC 可以用于此处使降序：使表达式为1的数据在前，使表达式为0的数据在后。
+order by 一个布尔表达式,DESC 可以用于此处使降序：使表达式为1的数据在前,使表达式为0的数据在后。
 
 #### 多层排序：
 
@@ -477,7 +458,7 @@ order by 一个布尔表达式，DESC 可以用于此处使降序：使表达式
 SELECT ...FROM student LEFT JOIN sc ON student.sno = sc.sno ORDER BY sc.tcno IS NULL DESC, student.sno, sc.score DESC;
 ```
 
-第一排序为选课信息：没选课在前，选课在后，第二排序为学号，同一学号的，按各科成绩降序排序。
+第一排序为选课信息：没选课在前,选课在后,第二排序为学号,同一学号的,按各科成绩降序排序。
 
 
 
