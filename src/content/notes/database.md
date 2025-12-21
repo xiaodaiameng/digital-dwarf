@@ -28,51 +28,62 @@ category: '期末'
 #### 一、数据库
 
 ```sql
-CREATE DATABASE Library;
-
-USE Library;
+mysql>SHOW databaseS;  
+mysql>CREATE DATABASE Library;
+mysql>SHOW CREATE DATABASE Library; 
+mysql>USE Library;
 ```
 
 
 
 #### 二、表操作
 
+create, alter, drop, rename, desc, show
+
 ```
 创建表
 CREATE TABLE book(
-					bNo INT(10) PRIMARY KEY UNIQUE NOT NULL,
-					bName VARCHAR(20) NOT NULL, 
+					bNo CHAR(10) PRIMARY KEY,
+					bName VARCHAR(20) NOT NULL DEFAULT 'abc', 
 					bTime DATETIME,
 					);
+自增必须是数值类型id INT auto_increment PRIMARY KEY
 外键：可以不是父表的主键，也可以不是子表的主键，但是必须唯一（起码unique）
 创建表时就设置好外键约束：设置外键约束名
 CREATE TABLE 子表名(..., bNo INT(10), ...,
 CONSTRAINT 约束名，FOREIGN KEY(bNo) referenceS book(bNo));
 
-修改列 ALTER TABLE <table_name> MODIFY COLUMN <column_name> <attributes> AFTER <column_name>;;
+修改列 ALTER TABLE <table_name> MODIFY COLUMN <column_name> <attributes可以部分修改> AFTER <column_name>;
 
 增加列 ALTER TABLE <table_name> ADD COLUMN <column_name> <attributes> AFTER <column_name>;
 增加列的外键约束：
-ALTER TABLE son_table ADD CONSTRAINT 约束名 FOREIGN KEY (<column_name>) REFERENCES father_table(<column_name>);
+ALTER TABLE son_table ADD CONSTRAINT 约束名 FOREIGN KEY (<column_name01>,<column_name02>) REFERENCES father_table(<column_name01>,<column_name02>);
+增加列的条件约束：
+ALTER TABLE atable ADD CONSTRAINT 约束名 CHECK(gender IN ('男', '女'));也可以直接在创建表时就约束：.. ,CONSTRAINT 约束名 CHECK(.AND.)
+ALTER TABLE users ADD CONSTRAINT chk_email CHECK(email LIKE '%@%.%');
 
 删除列:
 ALTER TABLE book DROP COLUMN bName;
 
 删除表：先删除相关的其他表的外键约束,
 ALTER TABLE 子表名 DROP FOREIGN KEY 约束名;
-DROP TABLE 父表名;
+DROP TABLE table_name;
 
 修改表名：
 RENAME TABLE old_name TO new_name;
 ALTER TABLE old_name RENAME TO new_name;
 
-描述表
+查看所有表：
+SHOW tableS;
+描述表：
 DESC table_name;
 ```
 
 
 
 #### 三、表内数据操作
+
+insert into, update set, delete from, select from
 
 ```
 插入：
@@ -200,7 +211,7 @@ SELECT courseNo, COUNT(*),AVG(score) FROM sc WHERE sNo LIKE '24173%' GROUP BY co
 ##### LIMIT
 
 ```sql
-...ORDER BY score DESC LIMIT 0,3;
+...ORDER BY score DESC LIMIT 0,3;不能有括号
 ```
 
 LIMIT 0,3 表示从第0条开始取前3条，等价于 LIMIT 3
@@ -222,16 +233,11 @@ HAVING AVG(sc.score) > 80 AND COUNT(*) >= 2;
 SELECT student.sname FROM student 
 
 WHERE student.sno IN
-
 (	SELECT sc.sno FROM sc 
- 
  	GROUP BY sc.sno 
- 	
  	HAVING AVG(score) > 80 AND COUNT(*) >= 2
 );
 ```
-
-按学号进行了分组，上面的COUNT(*) >= 2是指分组后该学生的选课门数的统计。
 
 
 
@@ -251,7 +257,7 @@ SELECT sname FROM student WHERE sno IN (SELECT sno FROM sc);
 
 
 
-```
+```sql
 SELECT sNo,sName,sSex,mName FROM student s LEFT JOIN Major m ON s.mNo = m.mNo;
 ```
 
@@ -276,11 +282,8 @@ SELECT  sc1.sNo, sc1.score, sc2.score FROM
 
 sc1
 JOIN sc2 ON sc1.sNo = sc2.sNo
-
 WHERE  sc1.tcno='2411010101'
-
 AND  sc2.tcno='2411010202'
-
 AND sc1.score > sc2.score;
 ```
 
@@ -306,7 +309,7 @@ SELECT ...FROM student LEFT JOIN sc ON student.sno = sc.sno ORDER BY sc.tcno IS 
 
 #### any的意思：低满足
 
-```
+```sql
 WHERE sc.score > ANY (子查询)
 等价于
 WHERE sc.score > (SELECT MIN(score) FROM ...)
