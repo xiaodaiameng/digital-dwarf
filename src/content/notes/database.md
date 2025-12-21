@@ -1,7 +1,7 @@
 ---
 title: '数据库'
 description: '数据库期末'
-date: '2025-12-17'
+date: '2025-12-21'
 draft: false
 category: '期末'
 ---
@@ -38,15 +38,15 @@ mysql>USE Library;
 
 #### 二、表操作
 
-create, alter, drop, rename, desc, show
+show tables, create table, alter table, drop table, rename table o to n, desc 
 
-```
+```sql
 创建表
 CREATE TABLE book(
-					bNo CHAR(10) PRIMARY KEY,
-					bName VARCHAR(20) NOT NULL DEFAULT 'abc', 
-					bTime DATETIME,
-					);
+bNo CHAR(10) PRIMARY KEY,
+bName VARCHAR(20) NOT NULL DEFAULT 'abc', 
+bTime DATETIME,
+);
 自增必须是数值类型id INT auto_increment PRIMARY KEY
 外键：可以不是父表的主键，也可以不是子表的主键，但是必须唯一（起码unique）
 创建表时就设置好外键约束：设置外键约束名
