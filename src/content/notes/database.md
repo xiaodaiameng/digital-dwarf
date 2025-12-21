@@ -16,13 +16,17 @@ category: '期末'
 
 $STUDENT( \underline{学号},姓名,性别,\text{班级号}_{\sim\sim})\\$
 
-$CLASS( \underline{班级号},所在院系,所属专业,班长学号)$
+$CLASS( \underline{班级号},所在院系,所属专业,$
+
+$班长学号)$
 
 $LESSON( \underline{课程号},课程名,教材名,学分)\\$
 
 $TEACHER( \underline{教师编号},姓名,所在院系 )\\$
 
-$SELECTION( \underline{\text{班级号}_{\sim\sim}, \text{课程号}_{\sim\sim}},\text{教师编号}_{\sim\sim}, \text{上课年度}, \text{上课学期})\\$
+$SELECTION( \underline{\text{班级号}_{\sim\sim}, \text{课程号}_{\sim\sim}},\text{教师编号}_{\sim\sim},$
+
+$ \text{上课年度}, \text{上课学期})\\$
 
 $GRADE(\underline{\text{学号}_{\sim\sim}, \text{课程号}_{\sim\sim}},分数 )\\$
 
@@ -52,7 +56,9 @@ $\pi_{\text{课程号,教材名}}\left(\sigma_{\text{课程名='数据库'}}(LES
 
 <br>
 
-$\pi_{\text{学号,姓名,班级号,所属专业}}(STUDENT \bowtie_{\text{STUDENT.学号=CLASS.班长学号}}CLASS)$
+$\pi_{\text{学号,姓名,班级号,所属专业}}(STUDENT \bowtie$
+
+$_{\text{STUDENT.学号=CLASS.班长学号}}CLASS)$
 
 <br>
 
@@ -62,7 +68,9 @@ $\pi_{\text{班级号,所属专业}}(SELECTION \bowtie CLASS \bowtie DB\_SE )$
 
 <br>
 
-$\pi_{\text{班级号,上课年度}}(\sigma_{\text{姓名='陈卫'}\wedge \text{课程名='数据结构'}}(SELECTION \bowtie TEACHER \bowtie LESSON))$
+$\pi_{\text{班级号,上课年度}}(\sigma_{\text{姓名='陈卫'}\wedge \text{课程名='数据结构'}}$
+
+$(SELECTION \bowtie TEACHER \bowtie LESSON))$
 
 <br>
 
@@ -75,8 +83,7 @@ $\pi_{\text{学号,课程号}}(GRADE)\div\pi_{\text{课程号}}(GRADE \bowtie WW
 $\pi_{\text{教师编号}}(\sigma_{\text{所在院系='软件学院'}}(TEACHER)) - \pi_{\text{教师编号}}( SELECTION \bowtie \sigma_{课程名='数据库'}(LESSON))$
 
 <br>$\pi_{\text{S1.教师编号, S1.课程号}}(
-\sigma_{\text{S1.课程号} \neq \text{S2.课程号} \wedge\\
-\text{S1.上课年度}=2020 \wedge \text{S2.上课年度}=2020}(\\
+\sigma_{\text{S1.课程号} \neq \text{S2.课程号} \wedge\text{S1.上课年度}=2020 \wedge\text{S2.上课年度}=2020}(\\
 \rho_{S1}(\text{SELECTION}) 
 \bowtie _{\text{S1.教师编号} = \text{S2.教师编号}} 
 \rho_{S2}(\text{SELECTION})
