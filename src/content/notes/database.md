@@ -16,7 +16,7 @@ category: '期末'
 
 $STUDENT( \underline{学号}，姓名，性别，\text{班级号}_{\sim\sim})\\$
 
-$CLASS( \underline{班级号}，所在院系，所属专业，班长学号)\\$
+$CLASS( \underline{班级号}，所在院系，所属专业，班长学号)$
 
 $LESSON( \underline{课程号}，课程名，教材名，学分)\\$
 
@@ -65,15 +65,33 @@ $\pi_{\text{学号，课程号}}(GRADE)\div\pi_{\text{课程号}}(GRADE \bowtie 
 
 $\pi_{\text{教师编号}}(\sigma_{\text{所在院系='软件学院'}}(TEACHER)) - \pi_{\text{教师编号}}( SELECTION \bowtie \sigma_{课程名='数据库'}(LESSON))$
 
+<br>
+
+```latex
+$$\pi_{\text{S1.教师编号, S1.课程号}}(
+\sigma_{\text{S1.课程号} \neq \text{S2.课程号} \wedge
+\\
+\text{S1.上课年度}=2020 \wedge \text{S2.上课年度}=2020}(
+\rho_{S1}(\text{SELECTION}) 
+\bowtie _{\text{S1.教师编号} = \text{S2.教师编号}} 
+\rho_{S2}(\text{SELECTION})
+))$$
+```
+
+
 $$
 \pi_{\text{S1.教师编号, S1.课程号}}(
-\sigma_{\text{S1.课程号} \neq \text{S2.课程号} \wedge \text{S1.上课年度}=2020 \wedge \text{S2.上课年度}=2020}(
+\sigma_{\text{S1.课程号} \neq \text{S2.课程号} \wedge
+\\
+\text{S1.上课年度}=2020 \wedge \text{S2.上课年度}=2020}(
 \rho_{S1}(\text{SELECTION}) 
 \bowtie _{\text{S1.教师编号} = \text{S2.教师编号}} 
 \rho_{S2}(\text{SELECTION})
 ))
 $$
-$\pi_{\text{S1.教师编号, S1.课程号}}(\sigma_{\text{S1.课程号} \neq \text{S2.课程号} \wedge \text{S1.上课年度}=2020 \wedge \text{S2.上课年度}=2020}(\rho_{S1}(\text{SELECTION}) \bowtie _{\text{S1.教师编号} = \text{S2.教师编号}} \rho_{S2}(\text{SELECTION})))$
+
+
+
 
 
 题目二：
