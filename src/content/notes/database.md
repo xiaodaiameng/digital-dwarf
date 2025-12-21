@@ -9,41 +9,114 @@ category: '期末'
 
 前言：
 
-### 打包数据命令：
+#### 打包数据命令：
 
 `mysqldump -u root -p --databases dbName >D:\dbname2.sql`
 
-### 还原数据命令：
+#### 还原数据命令：
 
 在命令行：
 `mysql -u root -p < D:\dbname2.sql`
+
 在mysql里：
 `SOURCE D:/dbname.sql`
 
+
+
 正文：
 
-### 聚合函数
+#### 一、数据库
 
-AVG(column)	COUNT(column)	MAX(column)	MIN(column)	SUM(column)
+```sql
+CREATE DATABASE Library;
 
-### 标准顺序：
+USE Library;
+```
+
+
+
+#### 二、表操作
+
+```
+创建表
+CREATE TABLE book(
+					bNo INT(10) PRIMARY KEY UNIQUE NOT NULL,
+					bName VARCHAR(20) NOT NULL, 
+					bTime DATETIME,
+					);
+外键：可以不是父表的主键，也可以不是子表的主键，但是必须唯一（起码unique）
+创建表时就设置好外键约束：设置外键约束名
+CREATE TABLE 子表名(..., bNo INT(10), ...,
+CONSTRAINT 约束名，FOREIGN KEY(bNo) referenceS book(bNo));
+
+修改列 ALTER TABLE <table_name> MODIFY COLUMN <column_name> <attributes> AFTER <column_name>;;
+
+增加列 ALTER TABLE <table_name> ADD COLUMN <column_name> <attributes> AFTER <column_name>;
+增加列的外键约束：
+ALTER TABLE son_table ADD CONSTRAINT 约束名 FOREIGN KEY (<column_name>) REFERENCES father_table(<column_name>);
+
+删除列:
+ALTER TABLE book DROP COLUMN bName;
+
+删除表：先删除相关的其他表的外键约束,
+ALTER TABLE 子表名 DROP FOREIGN KEY 约束名;
+DROP TABLE 父表名;
+
+修改表名：
+RENAME TABLE old_name TO new_name;
+ALTER TABLE old_name RENAME TO new_name;
+
+描述表
+DESC table_name;
+```
+
+
+
+#### 三、表内数据操作
+
+```
+插入：
+INSERT INTO table_name(bNo, bName, bTime) VALUES (1001, '数据库基础', '2025-12-21');
+
+更新:
+UPDATE table_name SET bAuthor='李慧' WHERE bTime='2025-12-21';
+
+删除：
+DELETE FROM table_name WHERE bName = '海的女儿';
+```
+
+#### 表内操作之——查询
+
+##### 聚合函数
+
+COUNT(column)
+
+MAX(column)
+
+MIN(column)
+
+AVG(column)
+
+SUM(column)
+
+##### 标准顺序：
 
 ```sql
 SELECT ...FROM ...WHERE ...
 GROUP BY ...
-HAVING ...        -- 组级过滤（分组后过滤）
+HAVING ...-- 组级过滤（分组后过滤）
 ORDER BY ...(DESC)
 LIMIT ...
 ```
 
 
 
-### 单表、汇总、分组、连接
+##### 单表、汇总、分组、连接
 
 ```sql
 SELECT sNo,sName,sSex,sBirth FROM student WHERE mNo='24173';
 
-SELECT sNo FROM student WHERE sName LIKE '陈__' OR sName LIKE '陈_';
+SELECT * FROM student WHERE sName LIKE '陈__' OR sName LIKE '陈_';
 
 SELECT sNo FROM student WHERE sName NOT LIKE '陈%';
 
@@ -72,15 +145,15 @@ SELECT DISTINCT sNo FROM sc WHERE score<60 GROUP BY sNo;
 SELECT DISTINCT LEFT(sName, 1) FROM student; 
 ```
 
-### distinct 去除重复值。
+##### distinct 去除重复值。
 
-### <mark>left(字符串, 取前几个字符) </mark>
+##### <mark>left(字符串, 取前几个字符) </mark>
 
 substring(字符串, 起始位置1, 长度)
 
 
 
-### GROUP BY
+##### GROUP BY
 
 ```sql
 SELECT sName, subject, SUM(score) FROM sc GROUP BY sName, subject;
@@ -92,7 +165,7 @@ SELECT sName, GROUP_CONCAT(subject), SUM(score) FROM sc GROUP BY sName;
 
 
 
-### DESC
+##### DESC
 
 ```sql
 SELECT  sSex,COUNT(*) FROM  student GROUP BY ssex ORDER BY COUNT(*) DESC;
@@ -103,7 +176,7 @@ ASC Ascending，升序，从高到低，默认值
 
 
 
-### COUNT
+##### COUNT
 
 ```sql
 SELECT COUNT(cpNo) FROM course;
@@ -124,7 +197,7 @@ SELECT courseNo, COUNT(*),AVG(score) FROM sc WHERE sNo LIKE '24173%' GROUP BY co
 
 
 
-### LIMIT
+##### LIMIT
 
 ```sql
 ...ORDER BY score DESC LIMIT 0,3;
@@ -134,7 +207,7 @@ LIMIT 0,3 表示从第0条开始取前3条，等价于 LIMIT 3
 
 
 
-### JOIN
+##### JOIN
 
 ```sql
 SELECT student.sname FROM
@@ -162,7 +235,7 @@ WHERE student.sno IN
 
 
 
-### 等价写法、WHERE EXISTS ... 、WHERE column IN ...
+##### 等价写法、WHERE EXISTS ... 、WHERE column IN ...
 
 ```sql
 SELECT (student.)sname FROM student INNER JOIN sc ON student.sno = sc.sno;
@@ -184,7 +257,7 @@ SELECT sNo,sName,sSex,mName FROM student s LEFT JOIN Major m ON s.mNo = m.mNo;
 
 
 
-### 多JOIN
+##### 多JOIN
 
 ```sql
 SELECT DISTINCT s.sNo, sName, mName FROM
@@ -196,7 +269,7 @@ WHERE score < 60;
 
 
 
-### 带where条件的多表连接
+##### 带where条件的多表连接
 
 ```sql
 SELECT  sc1.sNo, sc1.score, sc2.score FROM
@@ -213,7 +286,7 @@ AND sc1.score > sc2.score;
 
 
 
-### 布尔表达式
+#### 布尔表达式
 
 ```sql
 SELECT...FROM student LEFT JOIN sc ON student.sno = sc.sno ORDER BY sc.tcno IS NULL DESC;
@@ -221,7 +294,7 @@ SELECT...FROM student LEFT JOIN sc ON student.sno = sc.sno ORDER BY sc.tcno IS N
 
 order by 一个布尔表达式，DESC 可以用于此处使降序：使表达式为1的数据在前，使表达式为0的数据在后。
 
-### 多层排序：
+#### 多层排序：
 
 ```sql
 SELECT ...FROM student LEFT JOIN sc ON student.sno = sc.sno ORDER BY sc.tcno IS NULL DESC, student.sno, sc.score DESC;
@@ -231,7 +304,7 @@ SELECT ...FROM student LEFT JOIN sc ON student.sno = sc.sno ORDER BY sc.tcno IS 
 
 
 
-### any的意思：低满足
+#### any的意思：低满足
 
 ```
 WHERE sc.score > ANY (子查询)
@@ -241,7 +314,7 @@ WHERE sc.score > (SELECT MIN(score) FROM ...)
 
 
 
-### 其他长句：
+#### 其他长句：
 
 ```sql
 SELECT s.sNo,s.sName FROM student s
