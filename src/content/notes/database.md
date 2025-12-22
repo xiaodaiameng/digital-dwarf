@@ -237,7 +237,7 @@ bTime DATETIME,
 外键：可以不是父表的主键,也可以不是子表的主键,但是必须唯一（起码unique）
 创建表时就设置好外键约束：设置外键约束名
 CREATE TABLE 子表名(..., bNo INT(10), ...,
-CONSTRAINT 约束名,FOREIGN KEY(bNo) referenceS book(bNo));
+CONSTRAINT 约束名 FOREIGN KEY(bNo) referenceS book(bNo));
 
 修改列 ALTER TABLE <table_name> MODIFY COLUMN <column_name> <attributes可以部分修改> AFTER <column_name>;
 
