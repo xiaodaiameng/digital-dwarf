@@ -259,12 +259,28 @@ setTimeout(() => {
                     
                 } else {
                     // 密码错误
-                    showMessage("❌ 密码错误，请重试", "error");
-                    passwordInput.value = "";
-                    passwordInput.focus();
-                    passwordInput.classList.add('shake');
-                    setTimeout(() => passwordInput.classList.remove('shake'), 500);
-                }
+        const errors = [
+          "❌ 蟹老板说这个密码不能让你赚大钱！",
+          "❌ 派大星无法理解",
+          "❌ 章鱼哥关上了门",
+          "❌ 痞老板找到秘方了吗",
+          "❌ 主包不在这里，他去找小猪佩奇跳泥坑了",
+          "❌ 珊迪说这个密码不够德州风格",
+          "❌ 泡芙老师说密码需要更有礼貌",
+          "❌ 凯伦表示计算错误"
+        ];
+        const randomError = errors[Math.floor(Math.random() * errors.length)];
+        showMessage(randomError, "error");
+        
+        // 清空输入框并聚焦
+        passwordInput.value = "";
+        passwordInput.focus();
+        
+        // 抖动效果
+        passwordInput.classList.add('shake');
+        setTimeout(() => passwordInput.classList.remove('shake'), 500);
+      }
+
             }
             
             // 事件监听
