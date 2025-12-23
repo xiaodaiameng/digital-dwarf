@@ -1,22 +1,26 @@
+import { defineConfig } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
-import { defineConfig } from 'astro/config';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
+import vercel from '@astrojs/vercel/serverless'; // 添加这行
 
-// https://astro.build/config
 export default defineConfig({
   site: 'https://example.com',
   integrations: [mdx(), sitemap()],
   
+  // 配置 Vercel 适配器
+  adapter: vercel(),
+  
+  output: 'server',  // 保持这个
+  
   devToolbar: {
-    enabled: false // 彻底禁用
+    enabled: false
   },
-  // ========== 新增的Markdown配置部分 ==========
+  
   markdown: {
     remarkPlugins: [remarkMath],
     rehypePlugins: [rehypeKatex],
-    // 如果遇到公式中的中文显示问题，可以添加以下配置：
     extendDefaultPlugins: false
   }
 });
