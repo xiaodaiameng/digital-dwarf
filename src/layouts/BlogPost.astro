@@ -8,8 +8,8 @@ import Header from '../components/Header.astro';
 import Snowfall from '../components/Snowfall.astro';
 import ClickParticles from '../components/ClickParticles.astro';
 type Props = CollectionEntry<'blog'>['data'];
-
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+// 如果不需要 updatedDate，可以只解构需要的属性..... 删去updatedDate
+const { title, description, pubDate, heroImage } = Astro.props;
 ---
 
 <html lang="en">

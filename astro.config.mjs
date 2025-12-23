@@ -12,7 +12,6 @@ export default defineConfig({
   devToolbar: {
     enabled: false // 彻底禁用
   },
-  
   // ========== 新增的Markdown配置部分 ==========
   markdown: {
     remarkPlugins: [remarkMath],

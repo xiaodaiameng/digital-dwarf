@@ -7,7 +7,6 @@ import AboutHeroImage from '../assets/blog-placeholder-about.jpg';
 import BaseHead from '../components/BaseHead.astro';
 import Snowfall from '../components/Snowfall.astro';
 import ClickParticles from '../components/ClickParticles.astro';
-
 // 获取并处理文章数据
 const posts = await getCollection('blog', ({ data }) => {
   return import.meta.env.PROD ? data.draft !== true : true;

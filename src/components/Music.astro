@@ -55,8 +55,8 @@ const songs = [
 <script is:inline>
   const audio = document.getElementById('audio');
   const songs = JSON.parse('{JSON.stringify(songs)}'); // 传递数据到客户端
-  
-  function playSong(index) {
+  // 添加下划线前缀，表示故意未使用
+  function _playSong(index) {
     audio.src = songs[index].src;
     audio.play();
   }

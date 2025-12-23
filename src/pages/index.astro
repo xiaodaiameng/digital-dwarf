@@ -1,20 +1,26 @@
 ---
+// src/pages/index.astro - 完整修改版
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 import Snowfall from '../components/Snowfall.astro';
 import ClickParticles from '../components/ClickParticles.astro';
-import Music from '../components/Music.astro';
+import PasswordGate from '../components/PasswordGate.astro';
+
+const hasAccess = true;  // 中间件已经处理了认证，这里不需要再检查
 ---
+
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+
     <meta charset="UTF-8">
     <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>喵喵外婆的花田</title>
     <style>
+        
         :root {
             --typing-speed: 230ms; /* 每个字的间隔时间（越小越快） */
         }
@@ -79,7 +85,7 @@ import Music from '../components/Music.astro';
     </style>
 </head>
 <body>
-
+    {!hasAccess && <PasswordGate />}
     <Header />
     <main>
         <div class="search-typewriter">
@@ -141,7 +147,8 @@ import Music from '../components/Music.astro';
         //             "自由地分享想法，自由地私下交流，自由地创造工具。"+'\n'+
         //             "by the way, is telegram blocked in China ?"
         //                 ;
-        const text = "英语！数据库！马原！Web！概统！";        
+        //const text = "概统！数据结构！离数！汇编！";   
+        const text = "停更";  
         const typewriterEl = document.getElementById('typewriter');
         const caretEl = document.getElementById('caret');
         const typingSpeed = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--typing-speed'));
